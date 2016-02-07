@@ -1,5 +1,4 @@
 var toCamelCase = require('to-camel-case');
-var hasRemovePropertyInStyle = typeof document !== "undefined" && "removeProperty" in document.createElement("a").style;
 
 /**
  * Gets/Sets a DOM element property.
@@ -14,17 +13,10 @@ function css(element, name, value) {
   var name;
   if (arguments.length === 3) {
     name = toCamelCase((name === 'float') ? 'cssFloat' : name);
-    if (value) {
-      element.style[name] = value;
-      return value;
-    }
-    if (hasRemovePropertyInStyle) {
-      element.style.removeProperty(name);
-    } else {
-      element.style[name] = "";
-    }
+    element.style[name] = value || "";
     return value;
   }
+
   if (typeof name === "string") {
     name = toCamelCase((name === 'float') ? 'cssFloat' : name);
     return element.style[name];
